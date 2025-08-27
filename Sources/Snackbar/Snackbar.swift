@@ -123,5 +123,6 @@ private extension Snackbar {
             overlayView.removeFromSuperview()
         }
         overlayViews.removeAll(where: { $0 == overlayView })
+        overlayView.accessibilityViewIsModal = false
     }
 }
