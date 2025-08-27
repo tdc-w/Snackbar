@@ -82,7 +82,7 @@ private extension Snackbar {
             }
         }
         snackbarView.isAccessibilityElement = true
-        snackbarView.accessibilityLabel = message.message
+        snackbarView.accessibilityLabel = message.messageAttributedString.string
         presentationHostView.accessibilityViewIsModal = true
         activateOverlay(overlayView, presentationHostView: presentationHostView)
 
