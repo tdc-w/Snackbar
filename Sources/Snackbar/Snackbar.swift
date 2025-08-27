@@ -67,8 +67,7 @@ private extension Snackbar {
     func displaySnackbarView(for message: SnackbarMessage, presentationHostView: UIView) {
         let overlayView = SnackbarOverlayView(alignment: alignment, leadingMargin: leadingMargin, trailingMargin: trailingMargin, bottomOffset: bottomOffset)
         overlayView.backgroundColor = .clear
-        activateOverlay(overlayView, presentationHostView: presentationHostView)
-
+        
         let snackbarView = SnackbarMessageView(message: message) { [weak overlayView, weak presentationHostView] action, _ in
             if let action = action {
                 DispatchQueue.main.async { action.handler() }
@@ -82,6 +81,11 @@ private extension Snackbar {
                 self?.showNextMessageIfNecessary()
             }
         }
+        snackbarView.isAccessibilityElement = true
+        snackbarView.accessibilityLabel = message.message
+        presentationHostView.accessibilityViewIsModal = true
+        activateOverlay(overlayView, presentationHostView: presentationHostView)
+
         overlayView.displaySnackbarView(snackbarView, animated: true) { [weak snackbarView] in
             guard let automaticallyDismissesDuration = message.duration.value else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + automaticallyDismissesDuration) { [weak snackbarView] in
